@@ -1,0 +1,163 @@
+{% load static %}
+{% load common_extras %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/stack-interface.css' %}" rel="stylesheet" type="text/css" media="all">
+    <link href="{% static 'css/socicon.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/lightbox.min.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/flickity.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/iconsmind.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/jquery.steps.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/theme-charcoal.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,300,400,400i,500,600,700" rel="stylesheet">
+
+
+</head>
+<body data-smooth-scroll-offset="77">
+<div class="nav-container">
+    <div class="via-1668547907013" via="via-1668547907013" vio="mynav">
+        <div class="bar bar--sm visible-xs">
+            <div class="container">
+                <div class="row">
+                    <div class="col-3 col-md-2">
+                        <a href="index.html"> <img class="logo logo-dark" alt="logo" src="img/logo-dark.png"> <img
+                                class="logo logo-light" alt="logo" src="img/logo-light.png"> </a>
+                    </div>
+                    <div class="col-9 col-md-10 text-right">
+                        <a href="#" class="hamburger-toggle" data-toggle-class="#menu1;hidden-xs hidden-sm"> <i
+                                class="icon icon--sm stack-interface stack-menu"></i> </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav id="menu1" class="bar bar-1 hidden-xs bar--absolute">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-1 col-md-2 hidden-xs">
+                    </div>
+                    <div class="col-lg-11 col-md-12 text-right text-left-xs text-left-sm">
+                        <div class="bar__module">
+                            <ul class="menu-horizontal text-left">
+                                <li><a href="{% url 'index' %}">Home</a></li>
+                                <li><a href="{% url 'list all auctions' %}">Auctions</a></li>
+                                {% if request.user.is_authenticated %}
+                                    <li><a href="{% url 'add item' %}">Add Item</a></li>
+                                    <li class="dropdown"> <span class="dropdown__trigger">
+                                            Profile
+                                        </span>
+                                        <div class="dropdown__container">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="dropdown__content col-lg-2">
+                                                        <ul class="menu-vertical">
+                                                            <li><a href="{% url 'details user' pk=user.pk %}">Personal
+                                                                Info</a></li>
+                                                            {% if user.is_superuser %}
+                                                                <li><a href="{% url 'admin:index' %}">Admin Panel</a>
+                                                                </li>
+                                                            {% endif %}
+                                                            <li><a href="{% url 'my items' pk=user.pk %}">Items</a></li>
+                                                            <li>
+                                                                <a href="{% url 'my auctions' pk=user.pk %}">Auctions</a>
+                                                            </li>
+                                                            {% if request.user.is_moderator %}
+                                                                <li><a href="{% url 'pending auctions' %}">Pending Auctions</a></li>
+                                                            {% endif %}
+                                                            <li>
+                                                                <a href="{% url 'my watchlist' pk=user.pk %}">Watchlist</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                        {% if not request.user.is_authenticated %}
+                            <div class="bar__module">
+                                <a class="btn btn--sm btn--primary type--uppercase" href="{% url 'login user' %}"> <span
+                                        class="btn__text">SIGN in</span> </a>
+                            </div>
+                        {% else %}
+                            <div class="bar__module">
+                                <a class="btn btn--sm btn--primary type--uppercase"
+                                   href="{% url 'logout user' %}"> <span
+                                        class="btn__text">SIGN out</span> </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+{% load tz_detect %}
+{% tz_detect %}
+
+{% block page_content %}
+
+{% endblock %}
+
+<script src="{% static 'js/flickity.min.js' %}"></script>
+<script src="{% static 'js/easypiechart.min.js' %}"></script>
+<script src="{% static 'js/parallax.js' %}"></script>
+<script src="{% static 'js/typed.min.js' %}"></script>
+<script src="{% static 'js/datepicker.js' %}"></script>
+<script src="{% static 'js/isotope.min.js' %}"></script>
+<script src="{% static 'js/ytplayer.min.js' %}"></script>
+<script src="{% static 'js/lightbox.min.js' %}"></script>
+<script src="{% static 'js/granim.min.js' %}"></script>
+<script src="{% static 'js/jquery.steps.min.js' %}"></script>
+<script src="{% static 'js/countdown.min.js' %}"></script>
+<script src="{% static 'js/twitterfetcher.min.js' %}"></script>
+<script src="{% static 'js/spectragram.min.js' %}"></script>
+<script src="{% static 'js/smooth-scroll.min.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+
+
+<footer class="space--sm footer-1 text-center-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <ul class="list-inline list--hover">
+                    <li><a href="#"><span>Our Company</span></a></li>
+                    <li><a href="#"><span>Locations</span></a></li>
+                    <li><a href="#"><span>Products</span></a></li>
+                    <li><a href="#"><span>Work With Us</span></a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 text-right text-center-xs">
+                <ul class="social-list list-inline list--hover">
+                    <li><a href="#"><i class="socicon socicon-google icon icon--xs"></i></a></li>
+                    <li><a href="#"><i class="socicon socicon-twitter icon icon--xs"></i></a></li>
+                    <li><a href="#"><i class="socicon socicon-facebook icon icon--xs"></i></a></li>
+                    <li><a href="#"><i class="socicon socicon-instagram icon icon--xs"></i></a></li>
+                </ul>
+                <a href="#" class="btn type--uppercase"> <span class="btn__text">
+                        Contact Us
+                    </span> </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12"><img alt="Image" class="logo" src="img/logo-dark.png"> <span
+                    class="type--fine-print">© <span class="update-year"></span> Stack Inc.</span> <a
+                    class="type--fine-print" href="#">Privacy Policy</a> <a class="type--fine-print" href="#">Legal</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+
+</html>

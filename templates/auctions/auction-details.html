@@ -1,0 +1,76 @@
+{% extends 'base/base.html' %}
+{% load common_extras %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="switchable bg--secondary">
+            <div class="container">
+                <div class="row justify-content-around">
+                    <div class="col-md-8 col-lg-7">
+                        <h2>{{ auction.item.title }}</h2>
+                        <ul class="slides">
+                            <li>
+                                <img alt="Image" src='/media/{{ auction.item.item_photo }}'/>
+                            </li>
+                        </ul>
+                        <p class="lead">
+                            {{ auction.item.description }}
+                        </p>
+
+
+                        {#                            <p class="lead">#}
+                        {#                                Multiple font and colour scheme options mean that dramatically altering the look of your site is just clicks away &mdash; Customizing your site in the included Variant Page Builder makes experimenting with styles and content arrangements dead simple.#}
+                        {#                            </p>#}
+                    </div>
+                    <div class="col-md-4 col-lg-3">
+                        <div class="text-block">
+                            <h5>Start Date</h5>
+                            <p>
+                                {{ auction.start_datetime }}
+                            </p>
+                            <h5>End Date</h5>
+                            <p>
+                                {{ auction.end_datetime }}
+                            </p>
+                        </div>
+                        <div class="text-block">
+                            <h5>Starting Price</h5>
+                            <p>
+                                ${{ auction.start_price }}
+                            </p>
+                            <h5>Latest Price</h5>
+                            <p>
+                                ${{ auction.latest_bid.amount }}
+                            </p>
+                        </div>
+                        <div class="text-block">
+                            <h5>Number of Bids</h5>
+                            <p>
+                                {{ auction.bids_count }}
+
+                            </p>
+                        </div>
+                        {% is_auction_owner auction.id request.user.pk as is_owner %}
+                        {% if not auction.is_finished and not is_owner%}
+                            <div class="text-block">
+                                <a href="{% url 'make bid' auction_id=auction.id %}"> <i
+                                        class="icon material-icons text-danger">gavel</i> </a>
+                                <a href="{% url 'save auction' auction_id=auction.id %}"> <i
+                                        class="icon material-icons text-info">
+                                    {% is_auction_saved_by_user auction.id request.user.pk as is_saved %}
+                                    {% if is_saved %}
+                                        favorite
+                                    {% else %}
+                                        favorite_border
+                                    {% endif %}
+                                </i> </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+<div class="main-container">
+                <section class="imagebg height-100 text-center" data-overlay="9">
+                <div class="background-image-holder"><img alt="background"
+                                                      src="{% static 'img/custom/auction_finished.jpg' %}">
+            </div>
+                <div class="container pos-vertical-center">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1 class="h1--large">FINISHED</h1>
+                            <p class="lead">
+                                This auction has finished!
+                            </p>
+                            <a href="{% url 'index' %}">Go back to home page</a>
+                        </div>
+                    </div>
+                    <!--end of row-->
+                </div>
+                <!--end of container-->
+            </section>
+        </div>
+{% endblock %}

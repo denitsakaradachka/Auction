@@ -1,0 +1,142 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="space--lg">
+            <div class="container">
+                {% if submitted_auction_form.errors %}
+                    {% for field in submitted_auction_form %}
+
+                        {% for error in field.errors %}
+                            <div class="alert bg--error">
+                                <div class="alert__body">
+                                    <span>{{ field.label }}: {{ error|escape }}</span>
+                                </div>
+                                <div class="alert__close">
+                                    ×
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    {% endfor %}
+                {% endif %}
+
+                <div class="row justify-content-around">
+                    <div class="col-md-7 col-lg-6">
+                        <div class="slider border--round boxed--border" data-paging="true" data-arrows="true">
+                            <ul class="slides">
+                                <li><img alt="Image" src='/media/{{ item.item_photo }}'></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-lg-4">
+                        <h2>{{ item.title }}</h2>
+                        {% if item.approximate_price %}
+                            <div class="text-block">
+                            <span class="h4 inline-block">${{ item.approximate_price }}</span>
+                        {% endif %}
+                        <p> {{ item.description }} </p>
+                        <ul class="accordion accordion-2 accordion--oneopen">
+                            <li>
+                                <div class="accordion__title"><span class="h5">Specifications</span></div>
+                                <div class="accordion__content">
+                                    <p>{{ item.specifications }}</p>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="accordion__title"><span class="h5">History</span></div>
+                                <div class="accordion__content">
+                                    <p> {{ item.history }} </p>
+
+                                </div>
+                            </li>
+                            <li>
+                                <div class="accordion__title"><span class="h5">Condition</span></div>
+                                <div class="accordion__content">
+                                    <p> {{ item.get_condition_display }} </p>
+
+                                </div>
+                            </li>
+                        </ul>
+                        {% if not item.auction %}
+                            {{ start_auction_form.media }}
+                            <div class="modal-instance">
+                                <a class="btn modal-trigger" href="#">
+                                    <span class="btn__text">Start Auction</span>
+                                </a>
+                                <div class="modal-container">
+                                    <div class="modal-content section-modal">
+                                        <section class="unpad ">
+                                            <div class="container">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-6 col-12">
+                                                        <div class="feature feature-1">
+                                                            <div class="feature__body boxed boxed--lg boxed--border text-center">
+                                                                <div class="modal-close modal-close-cross"></div>
+                                                                <div class="text-block">
+                                                                    <h3>Start auction</h3>
+                                                                    <p>
+                                                                        Sell your item to the most to a person who will
+                                                                        most appreciate it.
+                                                                    </p>
+                                                                </div>
+                                                                <form method="post" action="{% url 'start auction' %}">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <label for="{{ start_auction_form.start_price.auto_id }}">$
+                                                                                Start price</label>
+                                                                            {{ start_auction_form.start_price }}
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <label for="{{ start_auction_form.start_datetime.auto_id }}">Start
+                                                                                Date & Time</label>
+                                                                            {{ start_auction_form.start_datetime }}
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            <label for="{{ start_auction_form.end_datetime.auto_id }}">End
+                                                                                Date & Time</label>
+                                                                            {{ start_auction_form.end_datetime }}
+                                                                        </div>
+                                                                        <div class="col-md-12">
+                                                                            {{ start_auction_form.item }}
+                                                                        </div>
+
+                                                                        {% csrf_token %}
+
+                                                                        <div class="col-md-12">
+                                                                            <button class="btn btn--primary type--uppercase"
+                                                                                    type="submit">Start
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!--end of row-->
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                        <!--end feature-->
+                                                    </div>
+                                                </div>
+                                                <!--end of row-->
+                                            </div>
+                                            <!--end of container-->
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="alert bg--error">
+            <div class="alert__body">
+                <span>Here is the alert text</span>
+            </div>
+            <div class="alert__close">
+                ×
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

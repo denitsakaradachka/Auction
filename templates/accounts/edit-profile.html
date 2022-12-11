@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+
+    <div class="main-container">
+        <section class="bg--secondary space--sm">
+            <div class="container">
+                <div class="row">
+                    {% if form.errors %}
+                        {% for field in form %}
+
+                            {% for error in field.errors %}
+                                <div class="alert bg--error">
+                                    <div class="alert__body">
+                                        <span>{{ field.label }}: {{ error|escape }}</span>
+                                    </div>
+                                    <div class="alert__close">
+                                        ×
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% endif %}
+                    <div class="col-lg-12">
+                        <div class="boxed boxed--lg boxed--border">
+                            <div id="account-profile" class="account-tab">
+                                <h4>Profile</h4>
+                                <form method="post" action="{% url 'edit user' pk=object.pk %}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>First Name:</label>
+                                            {{ form.first_name }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label>Last Name:</label>
+                                            {{ form.last_name }}
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Email Address:</label>
+                                            {{ form.email }}
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Location:</label>
+                                            {{ form.location }}
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Gender:</label>
+                                            {{ form.gender }}
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label>Bio:</label>
+                                            <textarea rows="4" name="bio"></textarea>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4">
+                                            <button type="submit" class="btn btn--primary type--uppercase">Save
+                                                Profile
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {% csrf_token %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+    </div>
+{% endblock %}

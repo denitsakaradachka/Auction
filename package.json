@@ -1,0 +1,7 @@
+{
+  "name": "auction",
+  "version": "1.0.0",
+  "dependencies": {
+    "@eonasdan/tempus-dominus": "^6.2.7"
+  }
+}

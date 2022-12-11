@@ -1,0 +1,98 @@
+{% extends 'base/base.html' %}
+{% load common_extras %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="space--xs text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="space--xs imagebg text-center" data-gradient-bg="#4876BD,#5448BD,#8F48BD,#BD48B1">
+            <div class="container">
+                <div class="cta cta--horizontal text-center-xs row">
+                    <div class="col-md-5">
+                        <p class="lead">Become the highest bidder in the world!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="space--sm">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="masonry">
+                            <div class="masonry-filter-container row justify-content-center align-items-center">
+                                <span>Category:</span>
+                                <div class="masonry-filter-holder">
+                                    <div class="masonry__filters" data-filter-all-text="All Categories"></div>
+                                </div>
+                            </div>
+                            <div class="masonry__container row">
+                                <div class="masonry__item col-md-6 col-lg-3"></div>
+
+                                {% for auction in auctions %}
+                                    <div class="masonry__item col-md-6 col-lg-3"
+                                         data-masonry-filter="{{ auction.item.category.title }}">
+                                        <div class="card card-2 text-center">
+                                            <div class="card__top">
+                                                <a href="#"> <img alt="Image"
+                                                                  src="/media/{{ auction.item.item_photo }}">
+                                                </a>
+                                            </div>
+                                            <div class="card__body">
+                                                <a href="{% url 'auction details' auction_id=auction.id %}">
+                                                    <h4>{{ auction.item.title }}</h4>
+                                                </a>
+                                                <span class="type--fade countdown" data-date="{{ auction.final_date_time }}" data-date-fallback="Finished">
+                                                </span>
+
+
+                                                <p>Starting price: ${{ auction.start_price }}<br>Latest bid:
+                                                    ${{ auction.latest_bid.amount }}<br>Bids: {{ auction.bids_count }}
+                                                </p>
+                                            </div>
+                                            {% is_auction_owner auction.id request.user.pk as is_owner %}
+                                            {% if not auction.is_finished and not is_owner %}
+                                                <div class="card__bottom text-center">
+                                                    {% if auction.is_started %}
+                                                        <div class="card__action"><span
+                                                                class="h6 type--uppercase"> <p>Bid</p></span>
+                                                            <a href="{% url 'make bid' auction_id=auction.id %}"> <i
+                                                                    class="material-icons">gavel</i> </a>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="card__action"><span
+                                                            class="h6 type--uppercase">Save</span>
+                                                        <a href="{% url 'save auction' auction_id=auction.id %}"> <i
+                                                                class="material-icons">
+                                                            {% is_auction_saved_by_user auction.id request.user.pk as is_saved %}
+                                                            {% if is_saved %}
+                                                                favorite
+                                                            {% else %}
+                                                                favorite_border
+                                                            {% endif %}
+                                                        </i> </a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <!--end item-->
+                            </div>
+                            <!--end masonry container-->
+                        </div>
+                        <!--end masonry-->
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+    </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="imagebg text-center height-100 parallax" data-overlay="7">
+            <div class="background-image-holder"><img alt="background"
+                                                      src="{% static 'img/custom/login.jpeg' %}">
+            </div>
+            <div class="container pos-vertical-center">
+                <div class="row">
+                    <div class="col-md-7 col-lg-5">
+                        <h2>Login to continue</h2>
+                        <p class="lead"> Welcome back, sign in with your existing Stack account credentials </p>
+                        <form method="post" action="{% url 'login user' %}">
+                            <div class="row">
+                                <div class="col-md-12">{{ form.username }}</div>
+                                <div class="col-md-12">{{ form.password }}</div>
+                                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                                <div class="col-md-12">
+                                    <button class="btn btn--primary type--uppercase" type="submit">Login</button>
+                                    {% csrf_token %}
+                                </div>
+                            </div>
+                        </form>
+                        <span class="type--fine-print block">Dont have an account yet? <a
+                                href="{% url 'register user' %}">Create account</a></span></div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

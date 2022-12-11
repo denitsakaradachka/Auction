@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="imagebg text-center height-300" data-overlay="9">
+            <div class="background-image-holder"><img alt="background"
+                                                      src="{% static 'img/custom/homepage.jpg' %}">
+            </div>
+            <div class="container">
+
+                {% if form.errors %}
+                    {% for field in form %}
+
+                        {% for error in field.errors %}
+                            <div class="alert bg--error">
+                                <div class="alert__body">
+                                    <span>{{ field.label }}: {{ error|escape }}</span>
+                                </div>
+                                <div class="alert__close">
+                                    ×
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    {% endfor %}
+                {% endif %}
+                <div class="row">
+                    <div class="col-md-7 col-lg-7">
+                        <h2>Bid to item - {{ item.title }}</h2>
+                        <p class="lead"> Please specify the amount you want to bid with and make sure it is higher than
+                            ${{ highest_bid }}. </p>
+                        <form method="post" action="{% url 'make bid' auction_id=auction_id %}"
+                              enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    {{ form.amount }}
+                                </div>
+                                <div class="col-md-12">
+                                    <button class="btn btn--primary type--uppercase" type="submit">Bid</button>
+                                </div>
+                                {% csrf_token %}
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+        </section>
+    </div>
+{% endblock %}

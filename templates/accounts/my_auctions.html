@@ -1,0 +1,167 @@
+{% extends 'base/base.html' %}
+{% load common_extras %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="space--xs text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="elements-title space--xxs text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="type--uppercase">My owned auctions
+                            <i class="stack-down-dir"></i>
+                        </h6>
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+        <section class=" ">
+            <div class="container">
+                <div class="masonry">
+                    <div class="masonry__container row">
+                        {% for auction in owned_auctions %}
+                            <div class="col-md-4 masonry__item">
+                                <div class="card card-1 boxed boxed--sm boxed--border">
+                                    <div class="card__top">
+                                        <div class="card__avatar">
+                                            <span>
+                                                <strong>{{ auction.item.title }}</strong>
+                                            </span>
+                                        </div>
+                                        <div class="card__meta">
+                                            {#                                            <span>{{ auction.remaining_time }}</span>#}
+                                            <span class="type--fade countdown" data-date="{{ auction.final_date_time }}"
+                                                  data-date-fallback="Finished"></span>
+                                        </div>
+                                    </div>
+                                    <div class="card__body">
+                                        <a href="{% url 'auction details' auction_id=auction.id %}">
+                                            <img src="/media/{{ auction.item.item_photo }}" alt="Image"
+                                                 class="border--round">
+                                        </a>
+                                        <p>
+                                            Latest Bid: ${{ auction.latest_bid.amount }}
+                                        </p>
+                                        <p>
+                                            Status: {{ auction.status }}
+                                        </p>
+                                    </div>
+                                    <div class="card__bottom">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <div class="card__action">
+
+                                                    <i class="material-icons">gavel</i>
+                                                    <span>{{ auction.bids_count }}</span>
+
+                                                </div>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <div class="card__action">
+
+                                                    <i class="material-icons">favorite</i>
+                                                    <span>{{ auction.saves_count }}</span>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!--end masonry__container + row -->
+                </div>
+                <!--end masonry-->
+            </div>
+            <!--end of container-->
+        </section>
+        <section class="elements-title space--xxs text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="type--uppercase">Participated in auctions
+                            <i class="stack-down-dir"></i>
+                        </h6>
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+        <section class=" ">
+            <div class="container">
+                <div class="masonry">
+                    <div class="masonry__container row">
+                        {% for auction in auctions_participations %}
+                            <div class="col-md-4 masonry__item">
+                                <div class="card card-1 boxed boxed--sm boxed--border">
+                                    <div class="card__top">
+                                        <div class="card__avatar">
+                                            <span>
+                                                <strong>{{ auction.item.title }}</strong>
+                                            </span>
+                                        </div>
+                                        <div class="card__meta">
+                                            {#                                            <span>{{ auction.remaining_time }}</span>#}
+                                            <span class="type--fade countdown" data-date="{{ auction.final_date_time }}"
+                                                  data-date-fallback="Finished"></span>
+                                        </div>
+                                    </div>
+                                    <div class="card__body">
+                                        <a href="{% url 'auction details' auction_id=auction.id %}">
+                                            <img src="/media/{{ auction.item.item_photo }}" alt="Image"
+                                                 class="border--round">
+                                        </a>
+                                        <p>
+                                            Latest Bid: ${{ auction.latest_bid.amount }}
+                                        </p>
+                                        <p>
+                                            {% is_current_winner auction.id request.user.pk as is_winner %}
+                                            {% if is_winner %}
+                                                You are the current winner!
+                                            {% else %}
+                                                You are losing the auction! Make a higher bid!
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="card__bottom">
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item">
+                                                <div class="card__action">
+                                                    <a href="#">
+                                                        <i class="material-icons">gavel</i>
+                                                        <span>{{ auction.bids_count }}</span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <div class="card__action">
+                                                    <a href="#">
+                                                        <i class="material-icons">favorite</i>
+                                                        <span>{{ auction.saves_count }}</span>
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!--end masonry__container + row -->
+                </div>
+                <!--end masonry-->
+            </div>
+            <!--end of container-->
+        </section>
+    </div>
+{% endblock %}

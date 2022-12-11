@@ -1,0 +1,86 @@
+{% extends 'base/base.html' %}
+{% load common_extras %}
+{% load static %}
+{% block page_content %}
+    <div class="main-container">
+        <section class="space--xs text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-lg-8">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="elements-title space--xxs text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h6 class="type--uppercase">My items
+                            <i class="stack-down-dir"></i>
+                        </h6>
+                    </div>
+                </div>
+                <!--end of row-->
+            </div>
+            <!--end of container-->
+        </section>
+        <section class=" ">
+            <div class="container">
+                <div class="masonry">
+                    <div class="masonry__container row">
+                        {% for item in items %}
+                            <div class="col-md-4 masonry__item">
+                                <div class="card card-1 boxed boxed--sm boxed--border">
+                                    <div class="card__top">
+                                        <div class="card__avatar">
+                                            <span>
+                                                <strong>{{ item.title }}</strong>
+                                            </span>
+                                        </div>
+                                        <div class="card__meta">
+                                            {% if item.approximate_price %}
+                                                Approximate price: ${{ item.approximate_price }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="card__body">
+                                        <a href="{% url 'details item' item_id=item.id %}">
+                                            <img src="/media/{{ item.item_photo }}" alt="Image"
+                                                 class="border--round">
+                                        </a>
+                                        <p>
+                                            Condition: {{ item.get_condition_display }}
+                                        </p>
+                                    </div>
+{#                                    <div class="card__bottom">#}
+{#                                        <ul class="list-inline">#}
+{#                                            <li class="list-inline-item">#}
+{#                                                <div class="card__action">#}
+{#                                                    <a href="#">#}
+{#                                                        <i class="material-icons">gavel</i>#}
+{#                                                        <span>{{ auction.bids_count }}</span>#}
+{#                                                    </a>#}
+{#                                                </div>#}
+{#                                            </li>#}
+{#                                            <li class="list-inline-item">#}
+{#                                                <div class="card__action">#}
+{#                                                    <a href="#">#}
+{#                                                        <i class="material-icons">favorite</i>#}
+{#                                                        <span>{{ auction.saves_count }}</span>#}
+{#                                                    </a>#}
+{#                                                </div>#}
+{#                                            </li>#}
+{#                                        </ul>#}
+{#                                    </div>#}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!--end masonry__container + row -->
+                </div>
+                <!--end masonry-->
+            </div>
+            <!--end of container-->
+        </section>
+    </div>
+{% endblock %}
