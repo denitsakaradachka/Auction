@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.views import generic as views
 from django.shortcuts import render, redirect
@@ -38,12 +39,6 @@ class UserDetailsView(views.DetailView):
         context = super().get_context_data(**kwargs)
 
         context['is_owner'] = self.request.user == self.object
-        # context['pets_count'] = self.object.pet_set.count()
-
-        # photos = self.object.photo_set.prefetch_related('photolike_set')
-        #
-        # context['photos_count'] = photos.count()
-        # context['likes_count'] = sum(x.photolike_set.count() for x in photos)
 
         return context
 
@@ -64,7 +59,10 @@ class UserEditView(views.UpdateView):
 def delete_user(request):
     user_pk = request.user.pk
     auth_logout(request)
-    UserModel.objects.filter(pk=user_pk).delete()
+    try:
+        UserModel.objects.filter(pk=user_pk).delete()
+    except UserModel.DoesNotExist as ex:
+        raise Http404("User does not exist")
 
     return redirect('index')
 

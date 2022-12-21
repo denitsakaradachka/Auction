@@ -1,4 +1,6 @@
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count
+from django.http import Http404
 from django.shortcuts import render, redirect
 
 from auction.auctions.models import Auction, Status
@@ -19,6 +21,9 @@ def index(request):
 
 def save_auction(request, auction_id):
     user_saved_auction = AuctionSave.objects.filter(auction_id=auction_id, user_id=request.user.pk, )
+
+    if request.user == user_saved_auction.item.user:
+        raise PermissionDenied
 
     if user_saved_auction:
         user_saved_auction.delete()

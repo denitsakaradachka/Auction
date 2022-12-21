@@ -16,12 +16,7 @@ class Status(ChoicesEnumMixin, Enum):
 
 
 class Auction(models.Model):
-    # item = models.ForeignKey(
-    #     Item,
-    #     on_delete=models.RESTRICT,
-    #     null=False,
-    #     blank=False
-    # )
+
     item = models.OneToOneField(
         Item,
         on_delete=models.RESTRICT,
@@ -98,16 +93,12 @@ class Auction(models.Model):
         return f'{delta.days} days, {hours:02d}:{minutes:02d}:{seconds:02d} hours'
 
     def final_date_time(self):
-        # return self.end_datetime.strftime('%Y-%m-%d %H:%M')
         return self.end_datetime.strftime('%Y/%m/%d %H:%M:%S')
-
 
     def clean(self):
         if self.end_datetime <= self.start_datetime:
             raise ValidationError('End date should be after start date.')
 
-        # self.start_datetime = datetime.fromtimestamp(self.start_datetime.timestamp(), tz=timezone.utc)
-        # self.end_datetime = datetime.fromtimestamp(self.end_datetime.timestamp(), tz=timezone.utc)
         return super(Auction, self).clean()
 
     def is_saved_by_user(self, user_id):

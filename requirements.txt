@@ -1,0 +1,10 @@
+Django
+django-tz-detect
+django-bootstrap-datepicker-plus
+psycopg2-binary
+Pillow
+
+future~=0.18.2
+pip~=21.2.4
+wheel~=0.37.0
+setuptools~=58.0.4

@@ -8,14 +8,14 @@
                     <div class="col-lg-8">
                         <div class="boxed boxed--lg boxed--border">
                             <div class="text-block text-center">
-                                <img alt="avatar" src="/media/{{ user.profile_picture }}" class="image--md"/>
-                                <span class="h5">{{ user.username }}</span>
-                                {% if user.get_full_name %}
-                                    <span class="h5">{{ user.get_full_name }}</span>
+                                <img alt="avatar" src="/media/{{ object.profile_picture }}" class="image--md"/>
+                                <span class="h5">{{ object.username }}</span>
+                                {% if object.get_full_name %}
+                                    <span class="h5">{{ object.get_full_name }}</span>
                                 {% endif %}
 
                                 {% if is_owner %}
-                                    <a class="btn btn--primary btn--sm" href="{% url 'edit user' pk=user.pk %}">
+                                    <a class="btn btn--primary btn--sm" href="{% url 'edit user' pk=object.pk %}">
                                         <span class="btn__text">Edit Profile</span>
                                     </a>
 
@@ -66,16 +66,16 @@
                                 <ul class="row row--list">
                                     <li class="col-md-4">
                                         <span class="type--fine-print block">Location:</span>
-                                        <span>{{ user.location }}</span>
+                                        <span>{{ object.location }}</span>
                                         {#                                            <img alt="Image" class="flag" src="img/flag-1.png">#}
                                     </li>
                                     <li class="col-md-4">
                                         <span class="type--fine-print block">Member Since:</span>
-                                        <span>{{ user.date_joined.date }}</span>
+                                        <span>{{ object.date_joined.date }}</span>
                                     </li>
                                     <li class="col-md-4">
                                         <span class="type--fine-print block">Contact:</span>
-                                        <span>{{ user.email }}</span>
+                                        <span>{{ object.email }}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -85,19 +85,19 @@
                             <ul class="row row--list clearfix text-center">
                                 <li class="col-md-3 col-6">
                                     <span class="h6 type--uppercase type--fade">Items</span>
-                                    <span class="h3">{{ user.items_count }}</span>
+                                    <span class="h3">{{ object.items_count }}</span>
                                 </li>
                                 <li class="col-md-3 col-6">
                                     <span class="h6 type--uppercase type--fade">Auctions</span>
-                                    <span class="h3">{{ user.auctions_count }}</span>
+                                    <span class="h3">{{ object.auctions_count }}</span>
                                 </li>
                                 <li class="col-md-3 col-6">
                                     <span class="h6 type--uppercase type--fade">Bids</span>
-                                    <span class="h3">{{ user.bids_count }}</span>
+                                    <span class="h3">{{ object.bids_count }}</span>
                                 </li>
                                 <li class="col-md-3 col-6">
                                     <span class="h6 type--uppercase type--fade">Watchlist</span>
-                                    <span class="h3">{{ user.watchlist_count }}</span>
+                                    <span class="h3">{{ object.watchlist_count }}</span>
                                 </li>
                             </ul>
                         </div>

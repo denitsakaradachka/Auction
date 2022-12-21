@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -30,7 +32,14 @@ class ItemCreateView(ItemsBaseView, CreateView):
 
 
 def item_details(request, item_id, submitted_auction_form=None):
-    item = Item.objects.filter(pk=item_id, user=request.user).get()
+    try:
+        item = Item.objects.filter(pk=item_id).get()
+    except Item.DoesNotExist as ex:
+        raise Http404('Item does not exist!')
+
+    if request.user != item.user:
+        raise PermissionDenied
+
     context = {
         'item': item,
         'start_auction_form': StartAuctionForm(initial={'item': item.id})
@@ -41,24 +50,4 @@ def item_details(request, item_id, submitted_auction_form=None):
 
     return render(request, 'items/details_item.html', context)
 
-# class ItemDetailsView(ItemsBaseView, DetailView):
-#     submitted_auction_form = None
-#     template_name = 'items/details_item.html'
-#
-#     def __init__(self, *args, **kwargs):
-#         super(ItemDetailsView, self).__init__(*args, **kwargs)
-#
-#     def get_queryset(self):
-#         qs = super(ItemDetailsView, self).get_queryset()
-#         return qs.filter(user=self.request.user)
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#
-#         start_auction_form = StartAuctionForm(initial={'item': context["item"].id})
-#         context['start_auction_form'] = start_auction_form
-#
-#         if ItemDetailsView.submitted_auction_form is not None:
-#             context['submitted_auction_form'] = ItemDetailsView.submitted_auction_form
-#
-#         return context
+
