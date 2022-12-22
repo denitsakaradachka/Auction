@@ -47,8 +47,13 @@
                                                 <a href="{% url 'auction details' auction_id=auction.id %}">
                                                     <h4>{{ auction.item.title }}</h4>
                                                 </a>
-                                                <span class="type--fade countdown" data-date="{{ auction.final_date_time }}" data-date-fallback="Finished">
-                                                </span>
+
+                                                {% if auction.is_started %}
+                                                    <span class="type--fade countdown" data-date="{{ auction.final_date_time }}" data-date-fallback="Finished">
+                                                    </span>
+                                                {% else %}
+                                                    <span class="type--fade">Will start at: {{ auction.start_time_formatted }}</span>
+                                                {% endif %}
 
 
                                                 <p>Starting price: ${{ auction.start_price }}<br>Latest bid:

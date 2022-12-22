@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.db.models import Count
 from django.http import Http404
@@ -19,18 +20,24 @@ def index(request):
     return render(request, 'common/home-page.html', context)
 
 
+@login_required
 def save_auction(request, auction_id):
-    user_saved_auction = AuctionSave.objects.filter(auction_id=auction_id, user_id=request.user.pk, )
+    try:
+        auction = Auction.objects.filter(pk=auction_id).get()
+    except Auction.DoesNotExist as ex:
+        raise Http404("Auction does not exist")
 
-    if request.user == user_saved_auction.item.user:
-        raise PermissionDenied
+    user_saved_auction = AuctionSave.objects.filter(auction_id=auction_id, user_id=request.user.pk, )
 
     if user_saved_auction:
         user_saved_auction.delete()
     else:
+        if request.user == auction.item.user:
+            raise PermissionDenied
         AuctionSave.objects.create(
             auction_id=auction_id,
             user_id=request.user.pk
         )
 
-    return redirect('auction details', auction_id=auction_id)
+    return redirect(request.META.get('HTTP_REFERER'))
+    # return redirect('auction details', auction_id=auction_id)

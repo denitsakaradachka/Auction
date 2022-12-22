@@ -20,6 +20,9 @@
 
 
 </head>
+{% load tz_detect %}
+{% tz_detect %}
+
 <body data-smooth-scroll-offset="77">
 <div class="nav-container">
     <div class="via-1668547907013" via="via-1668547907013" vio="mynav">
@@ -102,9 +105,6 @@
 </div>
 <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
-{% load tz_detect %}
-{% tz_detect %}
 
 {% block page_content %}
 

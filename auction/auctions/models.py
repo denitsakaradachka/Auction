@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from django.utils import timezone as django_timezone
 from enum import Enum
 
 from django.core.exceptions import ValidationError
@@ -93,7 +94,12 @@ class Auction(models.Model):
         return f'{delta.days} days, {hours:02d}:{minutes:02d}:{seconds:02d} hours'
 
     def final_date_time(self):
-        return self.end_datetime.strftime('%Y/%m/%d %H:%M:%S')
+        utc_date = datetime.fromtimestamp(self.end_datetime.timestamp(), tz=django_timezone.get_current_timezone())
+        return utc_date.strftime('%Y/%m/%d %H:%M:%S')
+
+    def start_time_formatted(self):
+        utc_date = datetime.fromtimestamp(self.start_datetime.timestamp(), tz=django_timezone.get_current_timezone())
+        return utc_date.strftime('%Y/%m/%d %H:%M:%S')
 
     def clean(self):
         if self.end_datetime <= self.start_datetime:
